@@ -27,3 +27,4 @@ pipeline:
       - "cp -r ./dist/* /var/traducir-image/app/frontend/"
     volumes:
       - /home/gervasio/docker/traducir-image:/var/traducir-image
+
