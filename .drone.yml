@@ -1,26 +1,29 @@
 pipeline:
-  build:
+  backend:
+    group: build
     image: g3rv4/transifex-builder
     when:
       branch: master
     commands:
-      - "git clone git@github.com:g3rv4-docker/traducir.git output-image"
-      - "rm -rf output-image/app/backend"
-      - "rm -rf output-image/app/frontend"
-      - "mkdir -p output-image/app/backend"
-      - "mkdir -p output-image/app/frontend"
+      - "rm -rf /var/traducir-image/app/backend"
+      - "mkdir -p /var/traducir-image/app/backend"
 
       - "cd Traducir.Api"
-      - "dotnet publish -c Release -f netcoreapp2.0 -o ../output-image/app/backend"
-      - "cd ../"
+      - "dotnet publish -c Release -f netcoreapp2.0 -o /var/traducir-image/app/backend"
+    volumes:
+      - /home/gervasio/docker/traducir-image:/var/traducir-image
+  frontend:
+    group: build
+    image: g3rv4/transifex-builder
+    when:
+      branch: master
+    commands:
+      - "rm -rf /var/traducir-image/app/frontend"
+      - "mkdir -p /var/traducir-image/app/frontend"
       
       - "cd Traducir.Web"
       - "cp -r /var/node_modules node_modules"
       - "npm run build"
-      - "cp -r ./dist/* ../output-image/app/frontend/"
-      - "cd ../"
-
-      - "cd output-image"
-      - "git add app"
-      - "git commit -m \"Source update: ${DRONE_COMMIT_SHA}\""
-      - "git push"
+      - "cp -r ./dist/* /var/traducir-image/app/frontend/"
+    volumes:
+      - /home/gervasio/docker/traducir-image:/var/traducir-image
