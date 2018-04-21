@@ -1,6 +1,5 @@
 pipeline:
   backend:
-    group: build
     image: g3rv4/transifex-builder
     when:
       branch: master
@@ -13,7 +12,6 @@ pipeline:
     volumes:
       - /home/gervasio/docker/traducir-image:/var/traducir-image
   frontend:
-    group: build
     image: g3rv4/transifex-builder
     when:
       branch: master
