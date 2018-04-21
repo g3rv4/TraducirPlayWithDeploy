@@ -28,7 +28,7 @@ pipeline:
   build-image:
     image: g3rv4/docker
     commands:
-      - "docker build -t g3rv4/traducir /var/traducir-image"
+      - "docker build -t g3rv4/traducir:dev /var/traducir-image"
       - "docker stop traducir_traducir_1"
       - "docker rm -f traducir_traducir_1"
       - "docker-compose -f /var/traducir/docker-compose.yml up -d"
